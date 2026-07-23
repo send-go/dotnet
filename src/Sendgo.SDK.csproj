@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Sendgo</RootNamespace>
+    <AssemblyName>Sendgo.SDK</AssemblyName>
+    <PackageId>Sendgo.SDK</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Sendgo</Authors>
+    <Company>Sendgo</Company>
+    <Description>Sendgo .NET SDK — 카카오 알림톡/친구톡, SMS/LMS/MMS</Description>
+    <PackageProjectUrl>https://sendgo.io</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>sendgo;kakao;alimtalk;sms;notification;korea</PackageTags>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+  </ItemGroup>
+</Project>
