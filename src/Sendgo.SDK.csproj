@@ -4,7 +4,7 @@
     <RootNamespace>Sendgo</RootNamespace>
     <AssemblyName>Sendgo.SDK</AssemblyName>
     <PackageId>Sendgo.SDK</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>Sendgo</Authors>
     <Company>Sendgo</Company>
     <Description>Sendgo .NET SDK — 카카오 알림톡/친구톡, SMS/LMS/MMS</Description>
