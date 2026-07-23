@@ -315,7 +315,7 @@ catch (SendgoException ex)
 | `KakaoSenderKey` | `string?` | 선택 | `null` | 카카오 발신프로필 키 |
 | `SmsSenderKey` | `string?` | 선택 | `null` | SMS 발신자 키 |
 | `ApiVersion` | `string` | 선택 | `"v2"` | API 버전 (`v1` \| `v2`) |
-| `BaseUrl` | `string` | 선택 | `"https://api.sendgo.io"` | API 기본 URL |
+| `BaseUrl` | `string` | 선택 | `"https://sendgo.io"` | API 기본 URL |
 
 ---
 

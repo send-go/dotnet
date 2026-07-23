@@ -28,4 +28,11 @@ public record Contact
     public string? Var7 { get; init; }
     [JsonPropertyName("var8")] [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Var8 { get; init; }
+
+    /// <summary>
+    /// 임의 명명 템플릿 변수 (예: ["title"] = "...") → 알림톡 #{title} 치환.
+    /// contact 오브젝트에 평탄하게 직렬화됩니다.
+    /// </summary>
+    [JsonExtensionData]
+    public Dictionary<string, object>? Variables { get; init; }
 }

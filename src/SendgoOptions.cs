@@ -3,8 +3,8 @@ namespace Sendgo;
 /// <summary>Sendgo SDK 설정.</summary>
 public class SendgoOptions
 {
-    /// <summary>Sendgo API 기본 URL (기본값: https://api.sendgo.io)</summary>
-    public string BaseUrl { get; set; } = "https://api.sendgo.io";
+    /// <summary>Sendgo API 기본 URL (기본값: https://sendgo.io)</summary>
+    public string BaseUrl { get; set; } = "https://sendgo.io";
 
     /// <summary>Access Key (필수)</summary>
     public required string AccessKey { get; set; }
