@@ -135,6 +135,46 @@ await client.SendFriendtalkAsync(new FriendtalkRequest
 
 ---
 
+## 브랜드메시지 사용법
+
+브랜드메시지는 친구톡의 후속 채널입니다. 메시지 타입이 친구톡과 1:1 대응되며
+(`FT`→`BT`, `FI`→`BI`, `FW`→`BW`, `FL`→`BL`, `FC`→`BC`, `FM`→`BM`, `FP`→`BP`, `FA`→`BA`),
+요청에는 **친구톡 코드를 그대로** 넘기고 변환은 서버가 처리합니다.
+
+친구톡과 달리 다음이 가능합니다.
+
+- 채널 친구가 **아닌** 수신자에게 발송 (`targeting: N`)
+- 수신 동의한 **전체 채널 친구 동보** 발송 (`targeting: F`, 수신자 목록 불필요)
+- 리스트·캐러셀·커머스·동영상 등 **템플릿 기반 리치 메시지**
+
+> v2 전용입니다. `FT`/`FI`/`FW`를 채널 친구에게만 보낼 때는 친구톡 API가 더 간단합니다.
+
+```csharp
+using Sendgo.Models;
+
+// 단건 발송 — 채널 친구 대상
+await client.SendBrandMessageAsync(new BrandMessageRequest
+{
+    Targeting = "M",
+    MessageType = "FL",
+    FriendTemplateUuid = "9cd5460b-6458-4edc-9b11-c26d3013c340",
+    Contacts = new[] { new Contact { PhoneNumber = "01012345678", Var1 = "29,000원" } },
+});
+
+// 동보 발송 — 수신 동의한 전체 채널 친구 (Contacts 불필요)
+await client.BroadcastBrandMessageAsync(new BrandMessageRequest
+{
+    MessageType = "FW",
+    FriendTemplateUuid = "9cd5460b-6458-4edc-9b11-c26d3013c340",
+});
+
+// 캠페인 조회
+var list = await client.GetBrandMessagesAsync(count: 10);
+var one  = await client.GetBrandMessageAsync("1f0a6d0e-6b3b-4f0f-9b2f-2f6f6a1b7c11");
+```
+
+---
+
 ## SMS / LMS / MMS 사용법
 
 ```csharp
