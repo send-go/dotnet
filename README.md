@@ -371,6 +371,44 @@ catch (SendgoException ex)
 
 ---
 
+## 짧은 URL
+
+짧은 URL 은 메시지 본문의 링크를 줄이고, 그 링크가 실제로 눌렸는지 집계합니다.
+문자는 바이트 수가 요금과 직결되므로 링크를 줄이면 그만큼 본문을 더 쓸 수 있습니다.
+
+같은 원본 URL 을 다시 줄이면 **기존 링크가 그대로 반환**됩니다. 캠페인별로 반응을
+따로 집계하려면 `forceNew` 로 새 코드를 만드세요.
+
+`deactivate` 는 링크를 삭제하지 않고 리다이렉트만 중지합니다. 이미 발송한 메시지의
+링크를 무효화할 때 쓰며, 누적 통계는 남고 이후 접속은 `410 Gone` 이 됩니다.
+
+```csharp
+// 짧은 URL 생성 (v2 전용)
+var created = await sendgo.CreateShortUrlAsync(new ShortUrlRequest
+{
+    TargetUrl = "https://example.com/promotions/summer-sale",
+    Title = "여름 세일 랜딩",
+}, ct);
+
+// 반응 통계 — 일별 추이 + 디바이스/유입경로/국가별 분해
+var stats = await sendgo.GetShortUrlStatsAsync(code, from: "2026-08-01", ct: ct);
+
+await sendgo.GetShortUrlsAsync(count: 10, ct: ct);
+await sendgo.GetShortUrlAsync(code, ct);
+await sendgo.DeactivateShortUrlAsync(code, ct);   // 리다이렉트만 중지, 통계는 남는다
+```
+
+`stats` 는 일별 추이(`daily`)와 디바이스(`byDevice`)·유입경로(`byReferer`)·국가(`byCountry`)별
+분해를 반환합니다. 일별 추이는 사전 집계 표에서 읽으므로 클릭이 많아도 응답 시간이 일정합니다.
+
+## 변경 사항
+
+### 1.1.0 (2026-08-11)
+
+- 짧은 URL 추가 — `CreateShortUrlAsync` / `GetShortUrlsAsync` / `GetShortUrlAsync` / `GetShortUrlStatsAsync` / `DeactivateShortUrlAsync`
+- `ShortUrlRequest` record 추가
+- `DeleteAsync` 헬퍼 추가
+
 ## 라이선스
 
 MIT License © 2026 [Sendgo](https://sendgo.io)
