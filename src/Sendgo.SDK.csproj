@@ -4,10 +4,10 @@
     <RootNamespace>Sendgo</RootNamespace>
     <AssemblyName>Sendgo.SDK</AssemblyName>
     <PackageId>Sendgo.SDK</PackageId>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Authors>Sendgo</Authors>
     <Company>Sendgo</Company>
-    <Description>Sendgo .NET SDK — 카카오 알림톡/친구톡, SMS/LMS/MMS</Description>
+    <Description>Sendgo .NET SDK — 카카오 알림톡/브랜드메시지, SMS/LMS/MMS</Description>
     <PackageProjectUrl>https://sendgo.io</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>sendgo;kakao;alimtalk;sms;notification;korea</PackageTags>
