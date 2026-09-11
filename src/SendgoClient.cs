@@ -26,7 +26,7 @@ namespace Sendgo;
 /// });
 /// </code>
 /// </example>
-public sealed class SendgoClient : IDisposable
+public sealed partial class SendgoClient : IDisposable
 {
     private readonly SendgoOptions _options;
     private readonly TokenManager _tokenManager;
