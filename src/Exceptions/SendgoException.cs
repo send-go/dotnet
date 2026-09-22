@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace Sendgo.Exceptions;
 
 /// <summary>Sendgo API 호출 실패 시 발생하는 예외.</summary>
@@ -20,11 +22,19 @@ public class SendgoException : Exception
         ResponseBody = responseBody;
     }
 
+    internal static string? ReadString(Dictionary<string, object?> body, string key) =>
+        body.GetValueOrDefault(key) switch
+        {
+            string text => text,
+            JsonElement { ValueKind: JsonValueKind.String } element => element.GetString(),
+            _ => null,
+        };
+
     internal static SendgoException FromResponse(
         int status, Dictionary<string, object?> body, string endpoint, string apiVersion)
     {
-        var errorCode    = body.GetValueOrDefault("code") as string;
-        var errorMessage = body.GetValueOrDefault("message") as string ?? "Unknown error";
+        var errorCode    = ReadString(body, "code");
+        var errorMessage = ReadString(body, "message") ?? "Unknown error";
         var message      = $"HTTP {status}{(errorCode != null ? $" [{errorCode}]" : "")} {errorMessage}";
         return new SendgoException(message, status, errorCode, endpoint, apiVersion, body);
     }

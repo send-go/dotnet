@@ -237,7 +237,7 @@ public sealed partial class SendgoClient : IDisposable
 
         if (!resp.IsSuccessStatusCode)
         {
-            var errorCode = responseBody.GetValueOrDefault("code") as string;
+            var errorCode = SendgoException.ReadString(responseBody, "code");
             var endpoint = url.Split('/').Last();
             if (!isRetry && _tokenManager.ShouldRefresh((int)resp.StatusCode, errorCode))
             {
