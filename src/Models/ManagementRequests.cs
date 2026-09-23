@@ -40,6 +40,11 @@ public record KakaoSenderCreateRequest
 /// </remarks>
 public record NoticeTemplateRequest
 {
+    /// <summary>등록 시 폴더 지정. 이동은 AssignTemplateFolderAsync를 사용합니다.</summary>
+    [JsonPropertyName("folderUuid")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FolderUuid { get; init; }
+
     /// <summary>발신프로필 키. 수정 시에는 무시됩니다 (변경 불가).</summary>
     [JsonPropertyName("kakaoSenderKey")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -160,6 +165,11 @@ public record NoticeTemplateRequest
 /// </remarks>
 public record BrandTemplateRequest
 {
+    /// <summary>등록 시 폴더 지정. 이동은 AssignTemplateFolderAsync를 사용합니다.</summary>
+    [JsonPropertyName("folderUuid")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FolderUuid { get; init; }
+
     /// <summary>발신프로필 키. 수정 시에는 무시됩니다 (변경 불가).</summary>
     [JsonPropertyName("kakaoSenderKey")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -711,7 +711,7 @@ MIT License © 2026 [Sendgo](https://sendgo.io)
 
 *키워드: 카카오 알림톡 .NET, 카카오 친구톡 ASP.NET, SMS 발송 C#, 알림톡 NuGet, .NET 카카오 API 연동, Sendgo .NET SDK, ASP.NET Core 알림 발송*
 
-## 계정·조직·API 키 관리 (1.4.0)
+## 계정·조직·API 키 관리 (1.5.0)
 
 발송용 `accessKey`/`secretKey`가 없는 단계에서 사용하는 **별도 계정 클라이언트**입니다.
 콘솔에서 발급받은 에이전트 토큰(`SENDGO_AGENT_TOKEN`)으로 `/api/v2/account`를 호출합니다.
@@ -735,3 +735,27 @@ var issued = await account.CreateApiKeyAsync(new() { ["name"] = "서버 연동" 
 지원 메서드: `MeAsync`, `OrganizationsAsync`, `SelectOrganizationAsync`, `ApiKeysAsync`, `CreateApiKeyAsync`, `ApiKeyAsync`, `UpdateApiKeyAsync`, `DeleteApiKeyAsync`, `IssueTokenAsync`, `AllowedIpsAsync`, `AddAllowedIpAsync`, `DeleteAllowedIpAsync`.
 
 키 생성 인자는 `name`, 선택적 `ipAddresses: [{ip, description}]`이며, 허용 IP 추가 인자는 `ip`, 선택적 `description`입니다. 키·IP 식별자는 응답의 `id`(UUID)를 사용합니다.
+
+## 템플릿 폴더 (1.5.0)
+
+기업 계정의 발송용 API 키와 `apiVersion=v2` 설정으로 사용하는 서버 전용 API입니다.
+폴더는 알림톡·브랜드메시지가 공유하며, 목록의 `templateType`은 `notice` 또는 `brand`입니다.
+목록은 `data.folders` 트리와 `total`, `uncategorised` 개수를 반환합니다.
+`templateCount`는 하위 폴더를 제외한 해당 폴더의 템플릿 수입니다.
+
+- 생성: `name`, 선택 `parentUuid`. 최대 5단계이며 같은 부모 아래 이름 중복은 409입니다.
+- 이동: 동일 발신프로필의 `templateCodes` 1~100개. `folderUuid`는 필수이며 `null`이면 미분류로 이동합니다.
+- 템플릿 목록: `folderUuid=none`은 미분류, UUID는 해당 폴더, 생략은 전체입니다.
+- 템플릿 등록: 선택 필드 `folderUuid`로 폴더를 지정합니다. 기존 템플릿 수정 API 대신 폴더 이동 API를 사용하세요.
+
+승인되지 않은 키의 `403 ACCESS_KEY_NOT_APPROVED`는 토큰 재발급·재시도 없이 반환합니다.
+계정 API의 `autoApprove`는 서버 설정의 실제 승인 정책을 나타냅니다.
+
+```csharp
+await client.GetTemplateFoldersAsync("notice");
+await client.CreateTemplateFolderAsync("주문 안내");
+await client.AssignTemplateFolderAsync("notice", kakaoSenderKey, new[] { "ORDER_001" }, null);
+await client.GetNoticeTemplatesByFolderAsync("none");
+// Brand는 GetBrandTemplatesByFolderAsync, 생성 요청에는 FolderUuid를 사용합니다.
+// 기존 GetNoticeTemplatesAsync/GetBrandTemplatesAsync 호출도 그대로 지원합니다.
+```

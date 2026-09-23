@@ -111,9 +111,17 @@ public sealed partial class SendgoClient
     /// <summary>알림톡 템플릿 목록 조회. null 인 조건은 적용하지 않습니다.</summary>
     public Task<Dictionary<string, object?>> GetNoticeTemplatesAsync(
         string? kakaoSenderKey = null, string? inspectionStatus = null,
+        string? search = null, int? count = null, CancellationToken ct = default) =>
+        GetNoticeTemplatesByFolderAsync(null, kakaoSenderKey, inspectionStatus, search, count, ct);
+
+    /// <summary>폴더 필터. none이면 미분류 템플릿만 조회합니다.</summary>
+    public Task<Dictionary<string, object?>> GetNoticeTemplatesByFolderAsync(
+        string? folderUuid,
+        string? kakaoSenderKey = null, string? inspectionStatus = null,
         string? search = null, int? count = null, CancellationToken ct = default)
     {
         var query = new List<string>();
+        if (folderUuid is not null) query.Add($"folderUuid={Uri.EscapeDataString(folderUuid)}");
         if (kakaoSenderKey is not null) query.Add($"kakaoSenderKey={Uri.EscapeDataString(kakaoSenderKey)}");
         if (inspectionStatus is not null) query.Add($"inspectionStatus={Uri.EscapeDataString(inspectionStatus)}");
         if (search is not null) query.Add($"search={Uri.EscapeDataString(search)}");
@@ -236,9 +244,17 @@ public sealed partial class SendgoClient
     /// <summary>브랜드메시지 템플릿 목록 조회.</summary>
     public Task<Dictionary<string, object?>> GetBrandTemplatesAsync(
         string? kakaoSenderKey = null, string? search = null, int? count = null,
+        CancellationToken ct = default) =>
+        GetBrandTemplatesByFolderAsync(null, kakaoSenderKey, search, count, ct);
+
+    /// <summary>폴더 필터. none이면 미분류 템플릿만 조회합니다.</summary>
+    public Task<Dictionary<string, object?>> GetBrandTemplatesByFolderAsync(
+        string? folderUuid,
+        string? kakaoSenderKey = null, string? search = null, int? count = null,
         CancellationToken ct = default)
     {
         var query = new List<string>();
+        if (folderUuid is not null) query.Add($"folderUuid={Uri.EscapeDataString(folderUuid)}");
         if (kakaoSenderKey is not null) query.Add($"kakaoSenderKey={Uri.EscapeDataString(kakaoSenderKey)}");
         if (search is not null) query.Add($"search={Uri.EscapeDataString(search)}");
         if (count is not null) query.Add($"count={count}");
