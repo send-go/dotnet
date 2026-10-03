@@ -10,7 +10,7 @@ namespace Sendgo.Models;
 /// (FT/FI/FW/FL/FC/FM/FP/FA)를 그대로 넘기며 브랜드메시지 코드
 /// (BT/BI/BW/BL/BC/BM/BP/BA) 변환은 서버가 처리합니다.
 ///
-/// <see cref="Targeting"/> 은 M(채널 친구) / N(비친구) / I(전체) / F(동보)이며,
+/// <see cref="Targeting"/> 은 M(친구+비친구) / N(비친구) / I(친구교집합) / O(친구만) / F(동보)이며,
 /// F 는 수신자 목록을 카카오 측에서 확장하므로 <see cref="Contacts"/> 를 넘기지 않습니다.
 /// </remarks>
 public record BrandMessageRequest
@@ -19,7 +19,7 @@ public record BrandMessageRequest
     [JsonPropertyName("friendTemplateUuid")]
     public required string FriendTemplateUuid { get; init; }
 
-    /// <summary>발송 대상. M | N | I | F</summary>
+    /// <summary>발송 대상. M | N | I | O | F</summary>
     [JsonPropertyName("targeting")]
     public string Targeting { get; init; } = "M";
 
@@ -27,7 +27,7 @@ public record BrandMessageRequest
     [JsonPropertyName("messageType")]
     public string MessageType { get; init; } = "FT";
 
-    /// <summary>수신자 목록. Targeting 이 M/N/I 일 때 필요합니다.</summary>
+    /// <summary>수신자 목록. Targeting 이 M/N/I/O 일 때 필요합니다.</summary>
     [JsonPropertyName("contacts")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Contact>? Contacts { get; init; }

@@ -28,6 +28,7 @@ namespace Sendgo;
 /// </example>
 public sealed partial class SendgoClient : IDisposable
 {
+    public EmailService Email { get; }
     private readonly SendgoOptions _options;
     private readonly TokenManager _tokenManager;
     private readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(15) };
@@ -42,6 +43,7 @@ public sealed partial class SendgoClient : IDisposable
     {
         _options = options;
         _tokenManager = new TokenManager(options);
+        Email = new EmailService(_tokenManager, options.BaseUrl, options.ApiVersion);
     }
 
     /// <summary>카카오 알림톡 전송.</summary>
@@ -262,5 +264,5 @@ public sealed partial class SendgoClient : IDisposable
         return dict;
     }
 
-    public void Dispose() { _http.Dispose(); _tokenManager.Dispose(); }
+    public void Dispose() { Email.Dispose(); _http.Dispose(); _tokenManager.Dispose(); }
 }
